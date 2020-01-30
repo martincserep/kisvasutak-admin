@@ -38,4 +38,5 @@ class trains
 
 $trains = new trains;
 header('Content-type: application/json');
+header('Access-Control-Allow-Origin: *');
 echo($trains -> getTrains('-LPADiCESei0jtK19JSi'));

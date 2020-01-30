@@ -38,4 +38,5 @@ class sights
 
 $sights = new sights;
 header('Content-type: application/json');
+header('Access-Control-Allow-Origin: *');
 echo($sights -> getSights(""));
