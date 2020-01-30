@@ -12,7 +12,7 @@ class trains
 
     public function __construct()
     {
-        $acc = ServiceAccount::fromJsonFile(__DIR__ . './secret/kisvasutak-admin-8f710-firebase-adminsdk-wwrig-87938a4d8a.json');
+        $acc = ServiceAccount::fromJsonFile('./secret/kisvasutak-admin-8f710-firebase-adminsdk-wwrig-87938a4d8a.json');
         $firebase = (new Factory) -> withServiceAccount($acc) -> create();
         $this -> database = $firebase -> getDatabase();
     }
