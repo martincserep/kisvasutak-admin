@@ -4,7 +4,7 @@ require_once './vendor/autoload.php';
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 
-$serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/secret/kisvasutak-admin-8f710-firebase-adminsdk-wwrig-87938a4d8a.json');
+$serviceAccount = ServiceAccount::fromJsonFile('./secret/kisvasutak-admin-8f710-firebase-adminsdk-wwrig-87938a4d8a.json');
 
 $firebase = (new Factory)
     ->withServiceAccount($serviceAccount)
@@ -13,6 +13,22 @@ $firebase = (new Factory)
 $database = $firebase->getDatabase();
 
 
+require_once "router.php";
+
+route('api/trains', function () {
+    return "./trains.php";
+});
+
+route('api/accomodations', function () {
+    return "./accomodations.php";
+});
+
+route('sights', function () {
+    return include_once "./sights.php";
+});
+
+$action = $_SERVER['REQUEST_URI'];
+dispatch($action);
 ?>
 <!DOCTYPE html>
 <html lang="en">
