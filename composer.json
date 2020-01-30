@@ -1,0 +1,17 @@
+{
+    "name": "marti/kisvasutak-admin",
+    "description": "Kisvasutak app backend",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Cserép",
+            "email": "martincserep1@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "kreait/firebase-php": "4.35",
+        "php": ">= 7.4.2"
+    }
+}
