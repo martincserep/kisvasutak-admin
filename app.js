@@ -38,12 +38,15 @@ app.get('/trains/:userId', function(request, response){
             data.push({'key': item, 'value': rawData[item]});
         })
         data.forEach(current => {
-            Object.keys(current).map(item=> {
-                resp.push(current[item])
-                     })
-                });
+            if(Array.isArray(current.value.users)) {
+                console.log(current.value.users)
+                if(current.value.users.find(u => u === userId)) {
+                    resp.push(current)
+                }
+            }
+        })
         
-        response.send(rawData)        
+        response.send(resp)        
         
     })
 })
