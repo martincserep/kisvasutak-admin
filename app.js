@@ -1,7 +1,7 @@
 const http = require('http');
 
-const hostname = '127.0.0.1';
-const port = 4000;
+// const hostname = '127.0.0.1';
+// const port = 4000;
 
 
 var express = require('express')
@@ -39,7 +39,6 @@ app.get('/trains/:userId', function(request, response){
         })
         data.forEach(current => {
             if(Array.isArray(current.value.users)) {
-                console.log(current.value.users)
                 if(current.value.users.find(u => u === userId)) {
                     resp.push(current)
                 }
@@ -110,6 +109,4 @@ app.get('/csa/:name', function (req, res) {
   res.send('csa ' + req.params.name)
 })
 
-app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+app.listen(process.env.PORT || 8080, () => console.log('All is ok.'))
