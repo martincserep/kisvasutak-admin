@@ -50,6 +50,88 @@ app.get('/trains/:userId', function(request, response){
     })
 })
 
+app.get('/gettrain/:trainId', function(request, response){
+    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var sightsRef = database.ref("/trains")
+    var trainId = '-'+request.params.trainId
+    
+    sightsRef.once('value', function(snapshot){
+        var rawData = snapshot.val()
+        var data = []
+        var resp = []
+        Object.keys(rawData).map(item=> {
+            if(item==trainId){
+
+                data.push({'key': item, 'value': rawData[item]});
+            }
+        })
+        data.forEach(current => {
+            Object.keys(current).map(item=> {
+                resp.push(current[item])
+                     })
+                });
+        
+        response.send(resp)        
+        
+    })
+})
+
+app.get('/getsight/:trainId/:id', function(request, response){
+    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var sightsRef = database.ref("/sights")
+    var trainId = '-'+request.params.trainId
+    var id = '-'+request.params.id
+    
+    sightsRef.once('value', function(snapshot){
+        var rawData = snapshot.val()
+        var data = []
+        var resp = []
+        Object.keys(rawData).map(item=> {
+            if(item==trainId){
+                data.push({'key': item, 'value': rawData[item]});
+            }
+        })
+        data.forEach(current => {
+            Object.keys(current.value).map(item=> {
+                if(item == id){
+                resp.push(current.value[item])
+                     }})
+                });
+        response.send(resp)        
+        
+    })
+})
+
+app.get('/getacc/:trainId/:id', function(request, response){
+    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var sightsRef = database.ref("/accomodations")
+    var trainId = '-'+request.params.trainId
+    var id = '-'+request.params.id
+    
+    sightsRef.once('value', function(snapshot){
+        var rawData = snapshot.val()
+        var data = []
+        var resp = []
+        Object.keys(rawData).map(item=> {
+            if(item==trainId){
+                data.push({'key': item, 'value': rawData[item]});
+            }
+        })
+        data.forEach(current => {
+            Object.keys(current.value).map(item=> {
+                if(item == id){
+                resp.push(current.value[item])
+                     }})
+                });
+        response.send(resp)        
+        
+    })
+})
+
+
 app.get('/sights/:trainId', function(request, response){
     response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
     response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -104,9 +186,6 @@ app.get('/accomodations/:trainId', function(request, response){
     })
 })
 
-app.get('/csa/:name', function (req, res) {
-    console.log('Accessing the secret section ...')
-  res.send('csa ' + req.params.name)
-})
+
 
 app.listen(process.env.PORT || 8080, () => console.log('All is ok.'))
