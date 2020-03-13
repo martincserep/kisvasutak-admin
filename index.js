@@ -1,26 +1,41 @@
-const http = require('http');
+const server = require("http").Server(app);
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const admin = require('firebase-admin');
+const TrainsRouter = require('./trains/routes.config');
+const AccomodationsRouter = require('./accomodations/routes.config');
+const SightsRouter = require('./sights/routes.config');
 
-// const hostname = '127.0.0.1';
-// const port = 4000;
+const serviceAccount = require('./secret/kisvasutak.json');
 
-
-var express = require('express')
-var logger = require('morgan')
-var bodyParser = require('body-parser')
-
-var admin = require('firebase-admin')
-
-var serviceAccount = require('./secret/kisvasutak.json')
-
-var firebaseAdmin = admin.initializeApp({
+const firebaseAdmin = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://kisvasutak-admin-8f710.firebaseio.com/'
-})
+});
 
-var database = firebaseAdmin.database()
+const database = firebaseAdmin.database();
 
-// Create instance of express app
-var app = express()
+const PORT = process.env.PORT || 8080;
+
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+    res.header('Access-Control-Expose-Headers', 'Content-Length');
+    res.header('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, X-Requested-With, Range');
+    if (req.method === 'OPTIONS') {
+        return res.send(200);
+    } else {
+        return next();
+    }
+});
+
+app.use(bodyParser.json());
+
+AccomodationsRouter.routesConfig(app);
+TrainsRouter.routesConfig(app);
+SightsRouter.routesConfig(app);
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/trains/:userId', function(request, response){
