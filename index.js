@@ -1,11 +1,11 @@
-const server = require("http").Server(app);
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
-const TrainsRouter = require('./trains/routes.config');
-const AccomodationsRouter = require('./accomodations/routes.config');
-const SightsRouter = require('./sights/routes.config');
+const server = require("http").Server(app);
+// const TrainsRouter = require('./trains/routes.config');
+// const AccomodationsRouter = require('./accomodations/routes.config');
+// const SightsRouter = require('./sights/routes.config');
 
 const serviceAccount = require('./secret/kisvasutak.json');
 
@@ -33,9 +33,9 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json());
 
-AccomodationsRouter.routesConfig(app);
-TrainsRouter.routesConfig(app);
-SightsRouter.routesConfig(app);
+// AccomodationsRouter.routesConfig(app);
+// TrainsRouter.routesConfig(app);
+// SightsRouter.routesConfig(app);
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/trains/:userId', function(request, response){
@@ -63,6 +63,14 @@ app.get('/trains/:userId', function(request, response){
         response.send(resp)        
         
     })
+})
+
+app.patch('/trains/:trainId', function(request, response){
+    const bodyParams = request.body
+    const trainRef = firebaseAdmin.database().ref(`trains/${bodyParams.id}`)
+    console.log(trainRef)
+    trainRef.set({lofasz: true})
+    response.send(200)
 })
 
 app.get('/gettrain/:trainId', function(request, response){
