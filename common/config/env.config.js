@@ -1,0 +1,12 @@
+module.exports = {
+        "type": "service_account",
+        "project_id": "kisvasutak-admin-8f710",
+        "private_key_id": "87938a4d8a9738d924081af77d7e667e796b65b4",
+        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCWYW+UeQupgAb2\nq1jxhthmej23SiamtkWKxQuNVx32FxoI9PNxk8g58lOcaSMzUrnNGf2DIDZ6Wx39\nL/quCk03nGWS2rvrRAfEV6Ww5zS7b9Sjqiy+MnZRQfuFkgEkTe0LiWmoUnZloXYN\nf8gNaXWOtpQyTm7ThnRbZ12+EhLG04GH1KF6HYprGtn1xBRuR/gJ48TM2gpaTGE2\nUrlsgJpGLR1sUweYk8n1c/9RydkNTpq3TF6Va18tIqVAWm9/3Hz/11G6zCm6/7Pn\nEkHM7PLbEfeajiIJq7mLktPM7UyVt0qliT4+C9MriS1tUSU3lRrzU7amqcNRmabn\ns2bVK1uFAgMBAAECgf8G0GNxI6SW1ml6XXx3DthY/5dl6fY8ytJb3cUOon2F3FLr\nSC4mKowbR0YcNqdhq/eMIG4pHH/B2F8dGdxCBpvfgtBKpAUTCmiC43XRwXUIotVm\nLrY+tNd0cLwoHg8iYsv0hqvcjkZouug4GsVcPJ5KP5VES+MgGPeTLLV5Gou/Q14B\n7xa5mGvyY+w2pa7gAjbg4WD0KFhLjtjbp3aYjjx5Qcgr5+YTqmrzE6xwraYbbBNX\nqjTylfkxoj5IDInbgNr8dtKXud9VQLCQCfNnu5V7oy3bDCDl4riKglEXDYNf4/Sk\nmbno94ilIiJErRYc/KufK43/0ZsD47fBnVLTihkCgYEAzRBKiS+A1uCkoDWreJe9\nNlY0MU8BMWnXBicOYNwZc2IJGA0yZfQpX2jMpdwVtiD7uRsAWPnABlDJlkbnrPhe\n5H9mh7LSR+Xm3JSb6rLM4rC6hOqKkgBTHBT3sGJ32Gm+AWT1a7U5xlXDWbGxI3Sn\nUSkDvMYqndg2uaI/nqRx1ccCgYEAu7vtfIIiSuJ5GsUsi+YsGA5IzB4mHmVcJb2V\niAK+t+Z/e+puh4q3xudBUnbD08vcF1tnn9DL/J5lesbcQC5KjbLEdOo2PTfai/Lv\nbDLDnQ9jUbyrouW5TW0eRr7+NcZgV/aC2OxIQYlB4PBezQfuJklq+o04a1hkZ9iZ\nvnX0lFMCgYEAsvCYWgWdw+PbRAIRUvX2Ikgu2yg5vkjBXZkPLu5hNxJBJT++zsC0\nqZDlo4XdXESD5A7vyrSFH/23Ku9Mkt9YzsNtUNR2Mk8nmSwEslS7/MSCviF8MdMe\nss6JJN2H/synBMh4cDh/5dZI1Sf9jxboOiY0ILI71ekqN+qg4WpV+1kCgYAoep37\nccfZI7n/JrKzO58YVMQnlvybIznaPWWnnQfoeT/VxTet7CAyOBzing8ddOBw/Nl8\nITZKsxCoh4ZoJFMY+InZt8KYMpniATDUwKFjFTVSI39SsXviEPwtPvNrPun5LYML\nKO9vihv1V37pcKNOCBiUC601oCqOJasI4UAqVwKBgFsxGc2vnNxsQ8EnwJQgTo8A\nWXcczJve8na3CfMSdD9BWxkDQMcBZC+KEcXjMklihN29GV6QMng7AXqf+TYW99LB\n9xZa5hnZSnqLkd90YmX5Q738dRuBSH7ADyEeD0Nck81uLNJe1TfYHxhD6HaUyTU8\nrY+zdef/QoX5GeEwAYfX\n-----END PRIVATE KEY-----\n",
+        "client_email": "firebase-adminsdk-wwrig@kisvasutak-admin-8f710.iam.gserviceaccount.com",
+        "client_id": "101637597195876068310",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-wwrig%40kisvasutak-admin-8f710.iam.gserviceaccount.com"    
+};

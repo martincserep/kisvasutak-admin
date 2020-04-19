@@ -1,26 +1,41 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const admin = require('firebase-admin');
+const server = require("http").Server(app);
+// const TrainsRouter = require('./trains/routes.config');
+// const AccomodationsRouter = require('./accomodations/routes.config');
+// const SightsRouter = require('./sights/routes.config');
 
-// const hostname = '127.0.0.1';
-// const port = 4000;
+const serviceAccount = require('./secret/kisvasutak.json');
 
-
-var express = require('express')
-var logger = require('morgan')
-var bodyParser = require('body-parser')
-
-var admin = require('firebase-admin')
-
-var serviceAccount = require('./secret/kisvasutak.json')
-
-var firebaseAdmin = admin.initializeApp({
+const firebaseAdmin = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://kisvasutak-admin-8f710.firebaseio.com/'
-})
+});
 
-var database = firebaseAdmin.database()
+const database = firebaseAdmin.database();
 
-// Create instance of express app
-var app = express()
+const PORT = process.env.PORT || 8080;
+
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+    res.header('Access-Control-Expose-Headers', 'Content-Length');
+    res.header('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, X-Requested-With, Range');
+    if (req.method === 'OPTIONS') {
+        return res.send(200);
+    } else {
+        return next();
+    }
+});
+
+app.use(bodyParser.json());
+
+// AccomodationsRouter.routesConfig(app);
+// TrainsRouter.routesConfig(app);
+// SightsRouter.routesConfig(app);
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/trains/:userId', function(request, response){
@@ -48,6 +63,14 @@ app.get('/trains/:userId', function(request, response){
         response.send(resp)        
         
     })
+})
+
+app.patch('/trains/:trainId', function(request, response){
+    const bodyParams = request.body
+    const trainRef = firebaseAdmin.database().ref(`trains/${bodyParams.id}`)
+    console.log(trainRef)
+    trainRef.set(bodyParams.trainObject)
+    response.send(200)
 })
 
 app.get('/gettrain/:trainId', function(request, response){
@@ -132,58 +155,19 @@ app.get('/getacc/:trainId/:id', function(request, response){
 })
 
 
-app.get('/sights/:trainId', function(request, response){
-    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
-    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    var sightsRef = database.ref("/sights")
-    var trainId = '-'+request.params.trainId
-    
-    sightsRef.once('value', function(snapshot){
-        var rawData = snapshot.val()
-        var data = []
-        var resp = []
-        Object.keys(rawData).map(item=> {
-            if(item==trainId){
+app.patch('/sights/:trainId', function(request, response){
+    const bodyParams = request.body
+    const sightRef = firebaseAdmin.database().ref(`sights/${bodyParams.trainId}/${bodyParams.id}`)
+    sightRef.set(bodyParams.sightObject)
+    response.send(200)
 
-                data.push({'key': item, 'value': rawData[item]});
-            }
-        })
-        data.forEach(current => {
-            Object.keys(current).map(item=> {
-                resp.push(current[item])
-                     })
-                });
-        
-        response.send(resp)        
-        
-    })
 })
 
-app.get('/accomodations/:trainId', function(request, response){
-    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
-    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    var accomodationsRef = database.ref("/accomodations")
-    var trainId = '-'+request.params.trainId
-    
-    accomodationsRef.once('value', function(snapshot){
-        var rawData = snapshot.val()
-        var data = []
-        var resp = []
-        Object.keys(rawData).map(item=> {
-            if(item==trainId){
-
-                data.push({'key': item, 'value': rawData[item]});
-            }
-        })
-        data.forEach(current => {
-            Object.keys(current).map(item=> {
-                resp.push(current[item])
-                     })
-                });
-        
-        response.send(resp)        
-        
-    })
+app.patch('/accomodations/:trainId', function(request, response){
+    const bodyParams = request.body
+    const accRef = firebaseAdmin.database().ref(`accomodations/${bodyParams.trainId}/${bodyParams.id}`)
+    accRef.set(bodyParams.accObject)
+    response.send(200)
 })
 
 
