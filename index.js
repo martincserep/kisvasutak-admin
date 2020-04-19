@@ -69,7 +69,7 @@ app.patch('/trains/:trainId', function(request, response){
     const bodyParams = request.body
     const trainRef = firebaseAdmin.database().ref(`trains/${bodyParams.id}`)
     console.log(trainRef)
-    trainRef.set({lofasz: true})
+    trainRef.set(bodyParams.trainObject)
     response.send(200)
 })
 
@@ -155,58 +155,19 @@ app.get('/getacc/:trainId/:id', function(request, response){
 })
 
 
-app.get('/sights/:trainId', function(request, response){
-    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
-    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    var sightsRef = database.ref("/sights")
-    var trainId = '-'+request.params.trainId
-    
-    sightsRef.once('value', function(snapshot){
-        var rawData = snapshot.val()
-        var data = []
-        var resp = []
-        Object.keys(rawData).map(item=> {
-            if(item==trainId){
+app.patch('/sights/:trainId', function(request, response){
+    const bodyParams = request.body
+    const sightRef = firebaseAdmin.database().ref(`sights/${bodyParams.trainId}/${bodyParams.id}`)
+    sightRef.set(bodyParams.sightObject)
+    response.send(200)
 
-                data.push({'key': item, 'value': rawData[item]});
-            }
-        })
-        data.forEach(current => {
-            Object.keys(current).map(item=> {
-                resp.push(current[item])
-                     })
-                });
-        
-        response.send(resp)        
-        
-    })
 })
 
-app.get('/accomodations/:trainId', function(request, response){
-    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
-    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    var accomodationsRef = database.ref("/accomodations")
-    var trainId = '-'+request.params.trainId
-    
-    accomodationsRef.once('value', function(snapshot){
-        var rawData = snapshot.val()
-        var data = []
-        var resp = []
-        Object.keys(rawData).map(item=> {
-            if(item==trainId){
-
-                data.push({'key': item, 'value': rawData[item]});
-            }
-        })
-        data.forEach(current => {
-            Object.keys(current).map(item=> {
-                resp.push(current[item])
-                     })
-                });
-        
-        response.send(resp)        
-        
-    })
+app.patch('/accomodations/:trainId', function(request, response){
+    const bodyParams = request.body
+    const accRef = firebaseAdmin.database().ref(`accomodations/${bodyParams.trainId}/${bodyParams.id}`)
+    accRef.set(bodyParams.accObject)
+    response.send(200)
 })
 
 
