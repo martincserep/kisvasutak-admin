@@ -154,6 +154,60 @@ app.get('/getacc/:trainId/:id', function(request, response){
     })
 })
 
+app.get('/allsights/:trainId', function(request, response){
+    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var sightsRef = database.ref("/sights")
+    var trainId = '-'+request.params.trainId
+    
+    sightsRef.once('value', function(snapshot){
+        var rawData = snapshot.val()
+        var data = []
+        var resp = []
+        Object.keys(rawData).map(item=> {
+            if(item==trainId){
+
+                data.push({'key': item, 'value': rawData[item]});
+            }
+        })
+        data.forEach(current => {
+            Object.keys(current).map(item=> {
+                resp.push(current[item])
+                     })
+                });
+        
+        response.send(resp)        
+        
+    })
+})
+
+app.get('/allaccomodations/:trainId', function(request, response){
+    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var accomodationsRef = database.ref("/accomodations")
+    var trainId = '-'+request.params.trainId
+    
+    accomodationsRef.once('value', function(snapshot){
+        var rawData = snapshot.val()
+        var data = []
+        var resp = []
+        Object.keys(rawData).map(item=> {
+            if(item==trainId){
+
+                data.push({'key': item, 'value': rawData[item]});
+            }
+        })
+        data.forEach(current => {
+            Object.keys(current).map(item=> {
+                resp.push(current[item])
+                     })
+                });
+        
+        response.send(resp)        
+        
+    })
+})
+
 
 app.patch('/sights/:trainId', function(request, response){
     const bodyParams = request.body
