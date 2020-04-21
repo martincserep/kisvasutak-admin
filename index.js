@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
+const server = require("http").Server(app);
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
-const server = require("http").Server(app);
 // const TrainsRouter = require('./trains/routes.config');
 // const AccomodationsRouter = require('./accomodations/routes.config');
 // const SightsRouter = require('./sights/routes.config');
@@ -15,7 +15,7 @@ const firebaseAdmin = admin.initializeApp({
 });
 
 const database = firebaseAdmin.database();
-
+// exports.database
 const PORT = process.env.PORT || 8080;
 
 app.use(function (req, res, next) {
@@ -33,9 +33,12 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json());
 
-// AccomodationsRouter.routesConfig(app);
 // TrainsRouter.routesConfig(app);
+// AccomodationsRouter.routesConfig(app);
 // SightsRouter.routesConfig(app);
+
+
+// app.listen(process.env.PORT || 8080, () => console.log('All is ok.'))
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/trains/:userId', function(request, response){
@@ -223,7 +226,6 @@ app.patch('/accomodations/:trainId', function(request, response){
     accRef.set(bodyParams.accObject)
     response.send(200)
 })
-
 
 
 app.listen(process.env.PORT || 8080, () => console.log('All is ok.'))
