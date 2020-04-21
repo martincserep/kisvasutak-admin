@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
+const server = require("http").Server(app);
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
-const server = require("http").Server(app);
 // const TrainsRouter = require('./trains/routes.config');
 // const AccomodationsRouter = require('./accomodations/routes.config');
 // const SightsRouter = require('./sights/routes.config');
@@ -15,7 +15,7 @@ const firebaseAdmin = admin.initializeApp({
 });
 
 const database = firebaseAdmin.database();
-
+// exports.database
 const PORT = process.env.PORT || 8080;
 
 app.use(function (req, res, next) {
@@ -33,9 +33,12 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json());
 
-// AccomodationsRouter.routesConfig(app);
 // TrainsRouter.routesConfig(app);
+// AccomodationsRouter.routesConfig(app);
 // SightsRouter.routesConfig(app);
+
+
+// app.listen(process.env.PORT || 8080, () => console.log('All is ok.'))
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/trains/:userId', function(request, response){
@@ -154,6 +157,60 @@ app.get('/getacc/:trainId/:id', function(request, response){
     })
 })
 
+app.get('/allsights/:trainId', function(request, response){
+    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var sightsRef = database.ref("/sights")
+    var trainId = '-'+request.params.trainId
+    
+    sightsRef.once('value', function(snapshot){
+        var rawData = snapshot.val()
+        var data = []
+        var resp = []
+        Object.keys(rawData).map(item=> {
+            if(item==trainId){
+
+                data.push({'key': item, 'value': rawData[item]});
+            }
+        })
+        data.forEach(current => {
+            Object.keys(current).map(item=> {
+                resp.push(current[item])
+                     })
+                });
+        
+        response.send(resp)        
+        
+    })
+})
+
+app.get('/allaccomodations/:trainId', function(request, response){
+    response.header("Access-Control-Allow-Origin", "*" ); // update to match the domain you will make the request from
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var accomodationsRef = database.ref("/accomodations")
+    var trainId = '-'+request.params.trainId
+    
+    accomodationsRef.once('value', function(snapshot){
+        var rawData = snapshot.val()
+        var data = []
+        var resp = []
+        Object.keys(rawData).map(item=> {
+            if(item==trainId){
+
+                data.push({'key': item, 'value': rawData[item]});
+            }
+        })
+        data.forEach(current => {
+            Object.keys(current).map(item=> {
+                resp.push(current[item])
+                     })
+                });
+        
+        response.send(resp)        
+        
+    })
+})
+
 
 app.patch('/sights/:trainId', function(request, response){
     const bodyParams = request.body
@@ -169,7 +226,6 @@ app.patch('/accomodations/:trainId', function(request, response){
     accRef.set(bodyParams.accObject)
     response.send(200)
 })
-
 
 
 app.listen(process.env.PORT || 8080, () => console.log('All is ok.'))
